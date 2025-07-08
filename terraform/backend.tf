@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "YOUR_REMOTE_STATE_BUCKET"
-    key            = "contact-form-api/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "YOUR_LOCK_TABLE"
-    encrypt        = true
+    bucket       = "demo-usecases-bucket-new"
+    key          = "contact-form/terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
+    use_lockfile = true # New approach for state locking
   }
 }
