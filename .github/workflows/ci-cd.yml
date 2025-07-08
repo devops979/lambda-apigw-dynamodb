@@ -1,8 +1,16 @@
 name: Deploy Contact API
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Choose the Terraform action'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
 
 permissions:
   id-token: write
