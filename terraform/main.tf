@@ -18,8 +18,16 @@ module "lambda" {
 }
 
 module "apigw" {
-  source     = "./modules/apigw"
-  lambda_arn = module.lambda.lambda_arn
+  source                      = "./modules/apigw"
+  api_name                    = "contact-api"
+  description                 = "API Gateway REST API for contact form"
+  lambda_function_arn         = module.lambda.lambda_arn
+  aws_region                  = var.aws_region
+  stage_name                  = "prod"
+  stage_description           = "Production stage for contact API"
+  access_log_destination_arn = var.access_log_destination_arn
+  access_log_format           = var.access_log_format
+  tags                        = var.tags
 }
 
 module "ses" {
