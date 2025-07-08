@@ -45,7 +45,7 @@
           <mxGeometry x="405" y="460" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="y5rQImOxIK2gZxBgFwPA-15" value="DYNAMODB" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="649" y="278" width="60" height="30" as="geometry" />
+          <mxGeometry x="649" y="248" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
