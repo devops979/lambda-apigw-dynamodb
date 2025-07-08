@@ -22,7 +22,8 @@ E-mail address that will:
   • be VERIFIED in Amazon SES
   • receive all contact-form notifications
 EOF
-  type = string
+  type = string  
+  default = "devops979@gmail.com"
 }
  
 ############################################
