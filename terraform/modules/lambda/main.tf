@@ -14,8 +14,9 @@ resource "aws_lambda_function" "this" {
 
   environment {
     variables = {
-      TABLE_NAME   = var.table_name
-      NOTIFY_EMAIL = var.notify_email
+      TABLE_NAME    = var.table_name
+      FROM_ADDRESS  = var.from_address      # verified SES sender
+      ALERT_ADDRESS = var.alert_address     # verified SES recipient
     }
   }
 }
