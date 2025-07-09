@@ -18,11 +18,6 @@ variable "table_name" {
   description = "The name of the DynamoDB table that the Lambda function will interact with."
 }
 
-variable "notify_email" {
-  type        = string
-  description = "The email address to receive notifications, such as alerts or updates related to the Lambda function."
-}
-
 variable "from_address" {
   type        = string
   description = "The verified SES email address used as the sender (FROM) address for outgoing emails."
