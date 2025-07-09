@@ -43,6 +43,16 @@ resource "aws_api_gateway_integration" "lambda_integration" {
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_function_arn}/invocations"
 }
 
+#  permission so APIGW can invoke Lambda
+resource "aws_lambda_permission" "allow_apigw" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_function_arn
+  principal     = "apigateway.amazonaws.com"
+  # allow any stage / any method for this API
+  source_arn    = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
+}
+
 # ------------------------------------------------------------
 # Deployment
 # ------------------------------------------------------------
