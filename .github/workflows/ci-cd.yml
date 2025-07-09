@@ -1,5 +1,4 @@
-name: Deploy Contact API
-
+name: Terraform Infra Provisioning using EC2
 on:
   workflow_dispatch:
     inputs:
@@ -13,28 +12,63 @@ on:
           - destroy
 
 permissions:
+  contents: write
   id-token: write
-  contents: read
 
 jobs:
-  deploy:
+  terraform_apply_destroy:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume:  ${{ secrets.AWS_OIDC_ROLE_ARN }}
-        aws-region:      ${{ secrets.AWS_REGION }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::211125325699:role/Demo_Access
+          aws-region: us-east-1
 
-    - uses: hashicorp/setup-terraform@v3
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ">= 1.12.0"
 
-    - name: Terraform Init
-      working-directory: terraform
-      run: terraform init -input=false
+      - name: Initialize Terraform
+        working-directory: ./terraform
+        run: terraform init
 
-    - name: Terraform Apply
-      working-directory: terraform
-      run: terraform apply -auto-approve -input=false -var="notify_email=${{ secrets.CONTACT_NOTIFY_EMAIL }}"
+      - name: Format Terraform
+        working-directory: ./terraform
+        run: terraform fmt -recursive        
+
+      - name: Validate Terraform
+        working-directory: ./terraform
+        run: terraform validate
+
+      - name: Generate Terraform Plan
+        working-directory: ./terraform
+        run: terraform plan
+
+      - name: Perform Action
+        working-directory: ./terraform
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            ACTION="${{ github.event.inputs.action }}"
+          elif [ "${{ github.event_name }}" == "push" ]; then
+            ACTION="apply"
+          else
+            echo "Unsupported event type: ${{ github.event_name }}"
+            exit 1
+          fi
+
+          echo "Running Terraform action: $ACTION"
+
+          if [ "$ACTION" == "apply" ]; then
+            terraform apply -auto-approve
+          elif [ "$ACTION" == "destroy" ]; then
+            terraform destroy -auto-approve
+          else
+            echo "Invalid action specified: $ACTION"
+            exit 1
+          fi
