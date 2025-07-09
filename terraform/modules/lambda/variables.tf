@@ -22,3 +22,13 @@ variable "notify_email" {
   type        = string
   description = "The email address to receive notifications, such as alerts or updates related to the Lambda function."
 }
+
+variable "from_address" {
+  type        = string
+  description = "The verified SES email address used as the sender (FROM) address for outgoing emails."
+}
+
+variable "alert_address" {
+  type        = string
+  description = "The verified SES email address that will receive alerts or contact form submissions."
+}
