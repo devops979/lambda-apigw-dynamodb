@@ -22,3 +22,9 @@ output "lambda_integration_uri" {
   value       = aws_api_gateway_integration.lambda_integration.uri
   description = "The URI used by API Gateway to invoke the Lambda function."
 }
+
+
+output "invoke_url" {
+  value       = "${aws_api_gateway_stage.this.invoke_url}/contact"
+  description = "The full URL to invoke the contact form API."
+}

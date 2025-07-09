@@ -6,8 +6,8 @@
 # Lambda as the trusted service.
 data "aws_iam_policy_document" "lambda_trust" {
   statement {
-    effect    = "Allow"
-    actions   = ["sts:AssumeRole"]
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
@@ -35,20 +35,20 @@ resource "aws_iam_role" "lambda_exec" {
 # - Full access to CloudWatch Logs
 data "aws_iam_policy_document" "inline" {
   statement {
-    effect   = "Allow"
-    actions  = ["dynamodb:PutItem", "dynamodb:DescribeTable"]
+    effect    = "Allow"
+    actions   = ["dynamodb:PutItem", "dynamodb:DescribeTable"]
     resources = [var.dynamodb_arn]
   }
 
   statement {
-    effect = "Allow"
-    actions = ["ses:SendEmail", "ses:SendRawEmail"]
+    effect    = "Allow"
+    actions   = ["ses:SendEmail", "ses:SendRawEmail"]
     resources = ["*"]
   }
 
   statement {
-    effect = "Allow"
-    actions = ["logs:*"]
+    effect    = "Allow"
+    actions   = ["logs:*"]
     resources = ["arn:aws:logs:*:*:*"]
   }
 }

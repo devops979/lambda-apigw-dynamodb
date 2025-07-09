@@ -6,7 +6,7 @@ variable "aws_region" {
   type        = string
   default     = "ap-south-1"
 }
- 
+
 ############################################
 # Contact-form specific values
 ############################################
@@ -15,17 +15,17 @@ variable "table_name" {
   type        = string
   default     = "contact_submissions"
 }
- 
+
 variable "notify_email" {
   description = <<EOF
 E-mail address that will:
   • be VERIFIED in Amazon SES
   • receive all contact-form notifications
 EOF
-  type = string  
-  default = "devops979@gmail.com"
+  type        = string
+  default     = "devops979@gmail.com"
 }
- 
+
 ############################################
 # API Gateway logging / tagging knobs
 ############################################
@@ -42,13 +42,13 @@ variable "access_log_format" {
 { "requestId":"$context.requestId", "ip":"$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime", "httpMethod":"$context.httpMethod", "resourcePath":"$context.resourcePath", "status":"$context.status", "protocol":"$context.protocol", "responseLength":"$context.responseLength" }
 EOF
 }
- 
+
 variable "tags" {
   description = "Tags applied to all resources"
   type        = map(string)
   default = {
     Environment = "production"
-    Project      = "contact-form"
-    Owner        = "dev-team"
+    Project     = "contact-form"
+    Owner       = "dev-team"
   }
 }
