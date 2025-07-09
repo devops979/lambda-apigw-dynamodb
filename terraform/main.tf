@@ -13,8 +13,10 @@ module "lambda" {
   function_name = "contact-form-handler"
   role_arn      = module.iam.role_arn
   handler_file  = "${path.module}/../lambda_src/handler.py"
-  table_name    = var.table_name
-  notify_email  = var.notify_email
+  table_name    = var.table_name  
+  from_address  = "devops979@gmail.com"
+  alert_address = "anilcharan357@gmail.com"
+
 }
 
 module "apigw" {
@@ -31,6 +33,9 @@ module "apigw" {
 }
 
 module "ses" {
-  source         = "./modules/ses"
-  email_identity = var.notify_email
+  source           = "./modules/ses"
+  email_identities = [
+    "devops979@gmail.com",
+    "anilcharan357@gmail.com"
+  ]
 }
